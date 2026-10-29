@@ -1,6 +1,8 @@
-# Sabi Ko — Android v1.3
+# Sabi Ko — Android v1.5 Trial
 
-Compact layout: 20px word labels, 44px minimum utility controls, tighter spacing and header; same board order.
+v1.5 trial: quick communication buttons (Oo, Hindi, Tulong, Hinto, Banyo, Masakit), expanded feelings and pain vocabulary, Favorites marked with ☆/★ and stored on-device, and tappable sentence chips for removal. Existing sentence builder, custom cards, recordings, and speech features remain. Favorite status uses browser localStorage and is not backed up.
+
+Communication-board layout: square tiles, colored borders by word group, 20px labels, 44px minimum utility controls, compact dark header. Same vocabulary, features and ordering.
 
 Kasama na ang 6 custom action pictures (Kain, Inom, Ligo, Tulog, Laro, Yakap), branded launcher icon, at native recording fix. Makikita ang anim sa Gawain.
 
