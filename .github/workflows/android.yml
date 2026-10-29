@@ -29,8 +29,18 @@ jobs:
         with:
           gradle-version: '8.9'
 
-      - name: Build installable test APK
-        run: gradle --no-daemon assembleDebug
+      
+      - name: Check Android project
+        run: |
+          pwd
+          ls -la
+          cat settings.gradle
+          ls -la app
+          gradle --no-daemon projects
+
+      - name: Build Android APK
+        run: gradle --no-daemon :app:assembleDebug --stacktrace
+
 
       - uses: actions/upload-artifact@v4
         with:
