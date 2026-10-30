@@ -1,49 +1,42 @@
-
 name: Build Android APK
-
 on:
   push:
     branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '17'
-
       - uses: android-actions/setup-android@v3
         with:
           packages: 'platform-tools platforms;android-35 build-tools;35.0.0'
-
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
-
-      
-      - name: Check Android project
+      - name: Verify v1.6 files are in repository
         run: |
-          pwd
-          ls -la
-          cat settings.gradle
-          ls -la app
-          gradle --no-daemon projects
-
+          test -f app/build.gradle
+          test -f app/src/main/assets/index.html
+          grep -q "versionName '1.6'" app/build.gradle
+          grep -q 'v1.6' app/src/main/assets/index.html
+          grep -q 'id="quickbuttons"' app/src/main/assets/index.html
+          echo 'Verified: v1.6 Android module and new UI files found.'
+          git rev-parse --short HEAD
       - name: Build Android APK
-        run: gradle --no-daemon :app:assembleDebug --stacktrace
-
-
+        run: gradle --no-daemon :app:assembleDebug
+      - name: Verify APK generated
+        run: |
+          test -f app/build/outputs/apk/debug/app-debug.apk
+          unzip -l app/build/outputs/apk/debug/app-debug.apk | grep -F 'assets/index.html'
       - uses: actions/upload-artifact@v4
         with:
-          name: Sabi-Ko-Android-APK
+          name: Sabi-Ko-v1.6-debug-APK
           path: app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
