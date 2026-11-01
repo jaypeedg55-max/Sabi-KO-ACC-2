@@ -38,6 +38,54 @@
   .tile{min-height:117px}
   .footer{font-size:11px}
 }
+
+/* v1.9 portrait overlap correction: fully flowing card controls and editor */
+@media (orientation: portrait) {
+  html, body { overflow-x: hidden !important; }
+  main, .board-scroll { width:100%; max-width:100%; min-width:0; }
+  .board-scroll { overflow-x: hidden !important; overflow-y: visible !important; }
+  .grid {
+    display:grid !important; grid-auto-flow:row !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    grid-template-rows:none !important; grid-auto-rows:auto !important;
+    width:100% !important; min-width:0 !important;
+    gap:12px !important; align-items:stretch;
+  }
+  .tile {
+    box-sizing:border-box !important;
+    width:100% !important; min-width:0 !important;
+    min-height:150px !important; height:auto !important;
+    padding:36px 7px 45px !important;
+    display:flex !important; flex-direction:column !important;
+    justify-content:center !important;
+    overflow:visible !important;
+    position:relative !important;
+    line-height:1.2;
+    word-break:normal; overflow-wrap:anywhere;
+  }
+  .tile .name{font-size:clamp(13px,3.6vw,18px) !important;max-width:100%;line-height:1.2;}
+  .tile .emoji{font-size:clamp(30px,9vw,46px) !important;line-height:1.1;}
+  .tile .voice-edit{position:absolute !important;bottom:5px !important;left:5px !important;
+      right:5px !important;width:calc(100% - 10px) !important;min-height:32px !important;
+      padding:5px 3px !important;font-size:12px !important;
+      white-space:normal !important;line-height:1.1;z-index:2;}
+  .tile .delete{right:4px !important;top:3px !important;}
+  .tile .fav{left:4px !important;top:3px !important;}
+  .editor, body.editing .editor{
+    position:static !important;bottom:auto !important;max-height:none !important;
+    overflow:visible !important; width:100%; display:none;
+  }
+  body.editing .editor{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .editor input,.editor select,.editor button{min-width:0 !important;max-width:100%;width:100%;box-sizing:border-box;}
+  .editor #wordTL,.editor #wordEN{grid-column:span 2;}
+  .footer{position:static !important;bottom:auto !important;flex-wrap:wrap;}
+  .sentence-row,.sentence,.controls,.toolbar{min-width:0;max-width:100%;}
+  .toolbar{flex-wrap:wrap;}
+  header,header .right{min-width:0;}
+}
+@media (orientation:portrait) and (min-width:650px){
+  .grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+}
 </style><style>
 .voice-edit{position:absolute;left:4px;bottom:4px;z-index:4;border:1px solid #2d62b8;background:#e4efff;color:#17427c;border-radius:9px;padding:4px 7px;font-weight:750;font-size:12px;min-height:31px;cursor:pointer}
 #voiceEditDialog{border:2px solid #aabde9;border-radius:18px;max-width:460px;width:94%;padding:18px;background:white;color:#182540;box-shadow:0 8px 34px #0004}
