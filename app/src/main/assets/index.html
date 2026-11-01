@@ -181,7 +181,60 @@ body.editing .tile{padding-top:32px !important;padding-bottom:44px !important}
  .tile .emoji{font-size:clamp(20px,3.9vh,28px) !important}
  .tile .name{font-size:clamp(10px,2.6vh,13px) !important}
 }
-</style><style>
+
+
+/* v1.9.2 ADAPTIVE LANDSCAPE: measured against available viewport height. */
+@media (orientation: landscape) {
+ html, body {height:100%;max-height:100%;overflow:hidden!important;}
+ body {display:flex!important;flex-direction:column!important;}
+ header {flex:0 0 auto!important;min-height:0!important;}
+ main {display:flex!important;flex:1 1 0!important;min-height:0!important;flex-direction:column!important;overflow:hidden!important;}
+ .top-static,.bottom-static{flex:0 0 auto!important;min-height:0!important;}
+ .board-scroll{flex:1 1 0!important;min-height:0!important;max-height:none!important;overflow-x:auto!important;overflow-y:hidden!important;overscroll-behavior:contain;}
+ .grid{height:100%!important;min-height:0!important;display:grid!important;grid-auto-flow:column!important;grid-template-columns:none!important;width:max-content!important;min-width:100%!important;grid-template-rows:repeat(3,minmax(0,1fr))!important;grid-auto-columns:clamp(90px,11vw,128px)!important;gap:6px!important;}
+ .tile {height:100%!important;min-height:0!important;overflow:hidden!important;box-sizing:border-box;}
+ .footer{position:static!important;}
+}
+@media (orientation:landscape) and (max-height:530px){
+ header{height:32px!important;padding:2px 8px!important;}
+ header .brand{font-size:13px!important;white-space:nowrap;}
+ header img{width:22px!important;height:22px!important;}
+ header select,header button{padding:3px 5px!important;font-size:11px!important;min-height:24px!important;}
+ main{padding:2px 7px 0!important;gap:2px!important;}
+ .top-static{max-height:39dvh!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:thin;}
+ .sentence-row{display:flex!important;flex-direction:row!important;gap:4px!important;}
+ .sentence{min-height:34px!important;max-height:40px!important;padding:4px 7px!important;font-size:11px!important;}
+ .controls{display:flex!important;flex-direction:row!important;width:auto!important;min-width:0!important;gap:3px!important;}
+ .controls button{padding:3px 6px!important;min-height:32px!important;font-size:11px!important;white-space:nowrap;}
+ .suggestions{margin:1px 0!important;}
+ .quick{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;margin:2px 0!important;gap:3px!important;padding:0 0 2px!important;}
+ .quick b{font-size:11px!important;white-space:nowrap;}
+ .quick button{font-size:10px!important;padding:3px 5px!important;white-space:nowrap;flex:0 0 auto;}
+ .toolbar{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;margin:1px 0!important;}
+ .toolbar label{font-size:10px!important;white-space:nowrap;}
+ .cats{flex-wrap:nowrap!important;overflow-x:auto!important;min-width:0!important;gap:3px!important;padding:0 0 2px!important;}
+ .cats button{font-size:10px!important;padding:3px 5px!important;white-space:nowrap;flex:0 0 auto;}
+ .board-scroll{padding:0 2px 8px!important;}
+ .grid{grid-template-rows:repeat(2,minmax(0,1fr))!important;grid-auto-columns:clamp(86px,12vw,124px)!important;gap:6px!important;}
+ .tile{border-width:2px!important;border-radius:11px!important;padding:3px 3px!important;gap:2px!important;}
+ .tile .emoji{font-size:clamp(20px,5vh,32px)!important;line-height:1!important;}
+ .tile .name{font-size:clamp(11px,2.8vh,14px)!important;line-height:1.1!important;}
+ .tile img{width:clamp(26px,7vh,42px)!important;height:clamp(26px,7vh,42px)!important;}
+ .bottom-static{max-height:31dvh!important;overflow-y:auto!important;}
+ .footer{min-height:32px!important;padding:3px 8px!important;font-size:11px!important;}
+ .footer button{font-size:11px!important;padding:4px 8px!important;}
+ #status:empty{display:none!important;}
+ body.editing .editor{max-height:22dvh!important;overflow:auto!important;}
+ body.editing .tile{padding:19px 2px 24px!important;}
+ .tile .voice-edit{font-size:10px!important;min-height:18px!important;padding:2px!important;}
+}
+@media (orientation:landscape) and (max-height:320px){
+ .top-static{max-height:34dvh!important;}
+ .quick,.suggestions{display:none!important;}
+ .footer{min-height:26px!important;}
+ .bottom-static{max-height:28dvh!important;}
+}
+.brand::after{content:"LS 1.9.2";font-size:10px;font-weight:700;color:#315d9b;background:#e8f0ff;border-radius:4px;padding:2px 4px;margin-left:3px}</style><style>
 .voice-edit{position:absolute;left:4px;bottom:4px;z-index:4;border:1px solid #2d62b8;background:#e4efff;color:#17427c;border-radius:9px;padding:4px 7px;font-weight:750;font-size:12px;min-height:31px;cursor:pointer}
 #voiceEditDialog{border:2px solid #aabde9;border-radius:18px;max-width:460px;width:94%;padding:18px;background:white;color:#182540;box-shadow:0 8px 34px #0004}
 #voiceEditDialog::backdrop{background:#101b38a6}
