@@ -86,6 +86,62 @@
 @media (orientation:portrait) and (min-width:650px){
   .grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
 }
+
+/* v1.9 frozen layout update: header + composer/footer stay fixed, only board scrolls */
+html,body{height:100%;}
+body{min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
+header{flex:0 0 auto;position:sticky;top:0;z-index:40;}
+main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:0 !important;}
+.sentence-row,.suggestions,.quick,.pain,.toolbar,#status,.editor,.footer{flex:0 0 auto;}
+.board-scroll{flex:1 1 auto;min-height:0;}
+.footer{position:static !important;z-index:25;}
+body.editing .editor{position:static !important;z-index:26;}
+
+/* portrait: fixed top/bottom, only grid scrolls vertically, 3 columns */
+@media (orientation:portrait){
+  body{overflow:hidden !important;}
+  main{gap:6px;}
+  .sentence-row{flex-direction:column;gap:7px}
+  .sentence{min-height:72px;max-height:108px;overflow:auto}
+  .controls{flex-direction:row;min-width:0;width:100%}
+  .controls button{min-height:42px;flex:1}
+  .toolbar{align-items:flex-start}
+  .cats{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding:2px 1px 7px;-webkit-overflow-scrolling:touch}
+  .cats button{flex:0 0 auto;white-space:nowrap}
+  .quick{flex-wrap:nowrap;overflow-x:auto;padding:2px 1px 8px;-webkit-overflow-scrolling:touch}
+  .quick button{white-space:nowrap;flex-shrink:0}
+  .board-scroll{overflow-y:auto !important;overflow-x:hidden !important;padding:0 2px 8px;-webkit-overflow-scrolling:touch}
+  .grid{display:grid !important;grid-auto-flow:row !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;grid-template-rows:none !important;grid-auto-rows:minmax(108px,auto) !important;grid-auto-columns:auto !important;width:100% !important;min-width:0 !important;gap:8px !important;align-content:start;}
+  .tile{min-height:108px !important;height:auto !important;padding:8px 4px !important;overflow:hidden;}
+  .tile .emoji{font-size:clamp(28px,7vw,42px) !important}
+  .tile img{width:clamp(42px,12vw,58px) !important;height:clamp(42px,12vw,58px) !important}
+  .tile .name{font-size:clamp(12px,3.2vw,15px) !important;line-height:1.15;}
+  .delete{right:-4px;top:-5px;width:27px;height:27px;font-size:16px}
+  .fav{font-size:15px;left:2px;top:2px}
+  .editor{padding:8px 8px 10px;gap:7px;display:none;grid-template-columns:44px 44px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto auto;align-items:center}
+  body.editing .editor{display:grid !important}
+  .editor input,.editor select,.editor button{width:100%;min-width:0;box-sizing:border-box}
+  .editor #wordTL,.editor #wordEN{grid-column:span 2}
+  .editor #catAdd{grid-column:span 2}
+  .footer{padding:8px 10px;min-height:54px}
+}
+
+/* very narrow portrait phones: still 3 columns but slightly tighter */
+@media (orientation:portrait) and (max-width:390px){
+  .grid{gap:6px !important;grid-auto-rows:minmax(100px,auto) !important}
+  .tile{border-radius:14px !important;padding:7px 3px !important}
+  .tile .emoji{font-size:clamp(24px,7vw,34px) !important}
+  .tile .name{font-size:12px !important}
+}
+
+/* landscape: only the board scrolls horizontally, fixed top and bottom, 3 rows */
+@media (orientation:landscape){
+  body{overflow:hidden !important;}
+  main{gap:5px;}
+  .board-scroll{overflow-x:auto !important;overflow-y:hidden !important;padding:0 2px 10px;-webkit-overflow-scrolling:touch}
+  .grid{display:grid !important;grid-auto-flow:column !important;grid-template-columns:none !important;grid-template-rows:repeat(3,minmax(74px,1fr)) !important;grid-auto-columns:clamp(90px,10.5vw,124px) !important;width:max-content !important;min-width:100% !important;gap:8px !important;align-content:start;}
+}
+
 </style><style>
 .voice-edit{position:absolute;left:4px;bottom:4px;z-index:4;border:1px solid #2d62b8;background:#e4efff;color:#17427c;border-radius:9px;padding:4px 7px;font-weight:750;font-size:12px;min-height:31px;cursor:pointer}
 #voiceEditDialog{border:2px solid #aabde9;border-radius:18px;max-width:460px;width:94%;padding:18px;background:white;color:#182540;box-shadow:0 8px 34px #0004}
