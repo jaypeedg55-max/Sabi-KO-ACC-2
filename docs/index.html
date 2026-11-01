@@ -87,61 +87,100 @@
   .grid{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
 }
 
-/* v1.9 frozen layout update: header + composer/footer stay fixed, only board scrolls */
-html,body{height:100%;}
-body{min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
-header{flex:0 0 auto;position:sticky;top:0;z-index:40;}
-main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;overflow:hidden;padding-bottom:0 !important;}
-.sentence-row,.suggestions,.quick,.pain,.toolbar,#status,.editor,.footer{flex:0 0 auto;}
-.board-scroll{flex:1 1 auto;min-height:0;}
-.footer{position:static !important;z-index:25;}
-body.editing .editor{position:static !important;z-index:26;}
-
-/* portrait: fixed top/bottom, only grid scrolls vertically, 3 columns */
+/* Unified responsive shell — v1.9 R4 */
+:root{--gap:clamp(5px,1vw,10px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{height:100vh;height:100dvh;min-height:0;display:flex;flex-direction:column}
+header{position:relative !important;flex:0 0 auto;min-height:44px;height:auto;max-width:100%;z-index:10;padding:6px clamp(8px,2vw,14px);flex-wrap:wrap}
+header .brand{font-size:clamp(14px,2.5vw,20px);min-width:0}
+header img{width:clamp(29px,4vw,39px);height:clamp(29px,4vw,39px)}
+header .right{min-width:0;margin-left:auto;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px}
+header select,header button{max-width:100%;font-size:clamp(11px,2vw,14px);padding:6px 7px}
+main{display:flex !important;flex:1 1 auto;flex-direction:column;min-height:0 !important;min-width:0;overflow:hidden !important;width:100%;max-width:1900px;margin:0 auto;padding:var(--gap) var(--gap) 0 !important;gap:0}
+.top-static{flex:0 1 auto;min-height:0;max-height:min(55dvh,420px);overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;padding-bottom:3px}
+.bottom-static{flex:0 0 auto;min-width:0;max-height:40dvh;display:flex;flex-direction:column;overflow:hidden;background:#fff;border-top:1px solid #d2dcf0;z-index:5}
+.bottom-static #status{flex:0 0 auto;max-height:35px;overflow:hidden}
+.bottom-static .editor{flex:0 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;max-height:27dvh;position:static !important;bottom:auto !important;width:100%;padding:7px;gap:7px;z-index:auto}
+body.editing .editor{display:flex !important;flex-wrap:wrap;align-items:center}
+.editor input,.editor select,.editor button{min-width:0;max-width:100%;box-sizing:border-box}
+.editor input[type=text]{min-width:min(110px,38vw);flex:1 1 140px}
+.bottom-static .footer{flex:0 0 auto;position:static !important;min-height:45px;padding:7px 9px max(7px,var(--safe-bottom));margin:0;flex-wrap:nowrap}
+.footer span{min-width:0;overflow-wrap:anywhere}
+.footer button{flex:0 0 auto}
+.sentence-row{min-width:0;width:100%}
+.sentence{min-width:0;overflow-y:auto;max-height:19dvh}
+.controls{min-width:min(108px,28vw)}
+.quick,.cats{min-width:0;display:flex;flex-wrap:nowrap;overflow-x:auto;max-width:100%;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
+.quick>* , .cats>*{flex-shrink:0}
+.toolbar{align-items:center;flex-wrap:wrap;min-width:0}
+.toolbar label{flex:0 0 auto}
+.board-scroll{flex:1 1 auto !important;min-height:0 !important;min-width:0;width:100%;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.grid{gap:clamp(6px,1vw,10px)}
+.tile{width:100%;min-width:0;min-height:0;max-width:100%;height:auto;position:relative;overflow:hidden;box-sizing:border-box;padding:8px 5px;line-height:1.17}
+.tile .name{font-size:clamp(11px,2.7vw,16px);line-height:1.16;max-width:100%;overflow-wrap:anywhere}
+.tile .emoji{font-size:clamp(26px,6vw,43px);line-height:1.1}
+.tile img{max-width:70%;max-height:48%;width:clamp(36px,7vw,58px);height:clamp(36px,7vw,58px)}
+.tile .voice-edit{position:absolute !important;left:4px !important;right:4px !important;bottom:4px !important;width:calc(100% - 8px) !important;height:auto !important;min-height:24px !important;max-height:42px;line-height:1.1;white-space:normal;font-size:clamp(10px,2.4vw,12px);padding:4px 2px !important;z-index:2}
+body.editing .tile{padding-top:32px !important;padding-bottom:44px !important}
+.tile .delete{top:3px !important;right:3px !important;z-index:3;width:27px;height:27px}
+.tile .fav{top:3px !important;left:3px !important}
+/* Portrait phones and tall tablets: always three columns. Only word cards scroll vertically. */
 @media (orientation:portrait){
-  body{overflow:hidden !important;}
-  main{gap:6px;}
-  .sentence-row{flex-direction:column;gap:7px}
-  .sentence{min-height:72px;max-height:108px;overflow:auto}
-  .controls{flex-direction:row;min-width:0;width:100%}
-  .controls button{min-height:42px;flex:1}
-  .toolbar{align-items:flex-start}
-  .cats{flex-wrap:nowrap;overflow-x:auto;max-width:100%;padding:2px 1px 7px;-webkit-overflow-scrolling:touch}
-  .cats button{flex:0 0 auto;white-space:nowrap}
-  .quick{flex-wrap:nowrap;overflow-x:auto;padding:2px 1px 8px;-webkit-overflow-scrolling:touch}
-  .quick button{white-space:nowrap;flex-shrink:0}
-  .board-scroll{overflow-y:auto !important;overflow-x:hidden !important;padding:0 2px 8px;-webkit-overflow-scrolling:touch}
-  .grid{display:grid !important;grid-auto-flow:row !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;grid-template-rows:none !important;grid-auto-rows:minmax(108px,auto) !important;grid-auto-columns:auto !important;width:100% !important;min-width:0 !important;gap:8px !important;align-content:start;}
-  .tile{min-height:108px !important;height:auto !important;padding:8px 4px !important;overflow:hidden;}
-  .tile .emoji{font-size:clamp(28px,7vw,42px) !important}
-  .tile img{width:clamp(42px,12vw,58px) !important;height:clamp(42px,12vw,58px) !important}
-  .tile .name{font-size:clamp(12px,3.2vw,15px) !important;line-height:1.15;}
-  .delete{right:-4px;top:-5px;width:27px;height:27px;font-size:16px}
-  .fav{font-size:15px;left:2px;top:2px}
-  .editor{padding:8px 8px 10px;gap:7px;display:none;grid-template-columns:44px 44px minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) auto auto;align-items:center}
-  body.editing .editor{display:grid !important}
-  .editor input,.editor select,.editor button{width:100%;min-width:0;box-sizing:border-box}
-  .editor #wordTL,.editor #wordEN{grid-column:span 2}
-  .editor #catAdd{grid-column:span 2}
-  .footer{padding:8px 10px;min-height:54px}
+  .top-static{max-height:47dvh}
+  .sentence-row{flex-direction:column;gap:5px}
+  .sentence{min-height:55px !important;max-height:12dvh}
+  .controls{width:100%;flex-direction:row;min-width:0;gap:5px}
+  .controls button{flex:1;min-width:0;min-height:37px;font-size:clamp(11px,3vw,15px)}
+  .quick{padding:2px 0 5px;margin:5px 0;gap:5px}
+  .quick button{padding:6px 8px;font-size:12px;white-space:nowrap}
+  .toolbar{margin:3px 0;gap:3px}
+  .cats{padding-bottom:3px}
+  .cats button{white-space:nowrap;padding:6px 8px}
+  .board-scroll{overflow-y:auto !important;overflow-x:hidden !important;padding:3px 2px 7px !important}
+  .grid{display:grid !important;grid-auto-flow:row !important;grid-template-columns:repeat(3,minmax(0,1fr)) !important;grid-template-rows:none !important;grid-auto-rows:minmax(108px,auto) !important;grid-auto-columns:auto !important;width:100% !important;min-width:0 !important;gap:clamp(5px,1.3vw,10px) !important;align-content:start}
+  .tile{min-height:110px !important;padding:7px 3px !important;border-radius:clamp(12px,3vw,18px)}
+  .tile .name{font-size:clamp(11px,3.1vw,17px) !important}
+  .tile .emoji{font-size:clamp(26px,7vw,43px) !important}
+  body.editing .tile{min-height:148px !important;padding:29px 2px 40px !important}
+  .bottom-static{max-height:32dvh}
 }
-
-/* very narrow portrait phones: still 3 columns but slightly tighter */
-@media (orientation:portrait) and (max-width:390px){
-  .grid{gap:6px !important;grid-auto-rows:minmax(100px,auto) !important}
-  .tile{border-radius:14px !important;padding:7px 3px !important}
-  .tile .emoji{font-size:clamp(24px,7vw,34px) !important}
-  .tile .name{font-size:12px !important}
+@media (orientation:portrait) and (max-width:355px){
+ .tile{border-width:2px !important}.tile .name{font-size:11px !important}.tile .emoji{font-size:25px !important}
+ .grid{gap:5px !important}
 }
-
-/* landscape: only the board scrolls horizontally, fixed top and bottom, 3 rows */
+/* Landscape devices: 3 rows and horizontal scrolling; keep header/footer visible. */
 @media (orientation:landscape){
-  body{overflow:hidden !important;}
-  main{gap:5px;}
-  .board-scroll{overflow-x:auto !important;overflow-y:hidden !important;padding:0 2px 10px;-webkit-overflow-scrolling:touch}
-  .grid{display:grid !important;grid-auto-flow:column !important;grid-template-columns:none !important;grid-template-rows:repeat(3,minmax(74px,1fr)) !important;grid-auto-columns:clamp(90px,10.5vw,124px) !important;width:max-content !important;min-width:100% !important;gap:8px !important;align-content:start;}
+ .top-static{max-height:48dvh}
+ .sentence-row{flex-direction:row;gap:6px}
+ .sentence{min-height:50px !important;max-height:17dvh}
+ .controls{flex-direction:column;gap:4px}
+ .controls button{min-height:27px;padding:4px 7px;font-size:clamp(11px,1.8vw,14px)}
+ .quick{margin:3px 0}.quick button{padding:4px 8px}
+ .toolbar{margin:2px 0}
+ .cats button{padding:5px 8px}
+ .board-scroll{overflow-x:auto !important;overflow-y:hidden !important;padding:2px 2px 9px !important}
+ .grid{display:grid !important;grid-auto-flow:column !important;grid-template-rows:repeat(3,minmax(66px,1fr)) !important;grid-auto-columns:clamp(84px,11vw,138px) !important;grid-template-columns:none !important;width:max-content !important;min-width:100% !important;gap:clamp(5px,0.9vw,9px) !important;height:100%;align-content:stretch}
+ .tile{height:100%;min-height:0 !important;padding:3px !important}
+ .tile .emoji{font-size:clamp(22px,4vh,40px) !important}
+ .tile .name{font-size:clamp(10px,2.5vh,16px) !important}
+ body.editing .tile{padding:24px 2px 31px !important}
+ .bottom-static{max-height:35dvh}
 }
-
+/* Short landscape phones: limit vertical chrome to preserve the board. */
+@media (orientation:landscape) and (max-height:450px){
+ header{padding:3px 8px;min-height:36px}
+ header img{height:29px;width:29px}
+ .top-static{max-height:39dvh}
+ .sentence{min-height:39px !important;max-height:11dvh;padding:4px 8px}
+ .quick,.toolbar{margin:1px 0}
+ .quick button,.cats button{padding:3px 7px}
+ .suggestions{margin:2px 0}
+ .footer{min-height:37px !important;padding:4px 7px !important}
+ .bottom-static{max-height:32dvh}
+ .grid{grid-template-rows:repeat(3,minmax(56px,1fr)) !important}
+ .tile .emoji{font-size:clamp(20px,3.9vh,28px) !important}
+ .tile .name{font-size:clamp(10px,2.6vh,13px) !important}
+}
 </style><style>
 .voice-edit{position:absolute;left:4px;bottom:4px;z-index:4;border:1px solid #2d62b8;background:#e4efff;color:#17427c;border-radius:9px;padding:4px 7px;font-weight:750;font-size:12px;min-height:31px;cursor:pointer}
 #voiceEditDialog{border:2px solid #aabde9;border-radius:18px;max-width:460px;width:94%;padding:18px;background:white;color:#182540;box-shadow:0 8px 34px #0004}
