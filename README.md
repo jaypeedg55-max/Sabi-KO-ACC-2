@@ -7,3 +7,6 @@ Upload the CONTENTS of this extracted folder to the **root** of your repository 
 
 ## Important
 This is the Android **source project**, not a precompiled APK. A signed debug APK is created by GitHub Actions. The application ID stays `ph.sabiko.app`; debug signing keys can differ between GitHub runs, so an install over an existing app may fail. Back up any custom data before considering uninstall, as uninstalling removes saved words, pictures and recordings.
+
+## Three-row scroll layout
+The word board now displays three rows of cards and scrolls horizontally for additional words. The previous Sabi Ko app name, logo, and talking-button behavior are unchanged.

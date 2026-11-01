@@ -88,7 +88,10 @@ public class MainActivity extends Activity {
                 try {
                     Intent picker = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     picker.addCategory(Intent.CATEGORY_OPENABLE);
-                    picker.setType("image/*");
+                    String[] accepts = params.getAcceptTypes();
+                    String mime = "*/*";
+                    if (accepts != null && accepts.length == 1 && accepts[0] != null && !accepts[0].isEmpty()) mime = accepts[0];
+                    picker.setType(mime);
                     startActivityForResult(picker, 11);
                     return true;
                 } catch (Exception e) { fileCallback.onReceiveValue(null); fileCallback = null; return false; }
@@ -171,9 +174,29 @@ public class MainActivity extends Activity {
         @JavascriptInterface public void startRecording() { runOnUiThread(() -> requestRecording()); }
         @JavascriptInterface public void stopRecording() { runOnUiThread(() -> finishRecording(true)); }
         @JavascriptInterface public boolean hasFilipino() { return ttsReady && filipinoReady; }
-        @JavascriptInterface public void speak(String text, String id) {
+        @JavascriptInterface public void speak(String text, String id, String lang) {
             runOnUiThread(() -> {
-                if (!ttsReady || !filipinoReady || tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id) == TextToSpeech.ERROR) finishSpeech(id, true);
+                if (!ttsReady) { finishSpeech(id, true); return; }
+                int result;
+                if ("en".equals(lang)) result = tts.setLanguage(Locale.US);
+                else {
+                    result = tts.setLanguage(Locale.forLanguageTag("fil-PH"));
+                    if (result < 0) result = tts.setLanguage(Locale.forLanguageTag("tl-PH"));
+                }
+                if (result < 0 || tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id) == TextToSpeech.ERROR) finishSpeech(id, true);
+            });
+        }
+        @JavascriptInterface public void speakSpeed(String text, String id, String lang, double rate) {
+            runOnUiThread(() -> {
+                if (!ttsReady) { finishSpeech(id, true); return; }
+                int result;
+                if ("en".equals(lang)) result = tts.setLanguage(Locale.US);
+                else {
+                    result = tts.setLanguage(Locale.forLanguageTag("fil-PH"));
+                    if (result < 0) result = tts.setLanguage(Locale.forLanguageTag("tl-PH"));
+                }
+                tts.setSpeechRate((float)Math.max(0.5, Math.min(1.5, rate)));
+                if (result < 0 || tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id) == TextToSpeech.ERROR) finishSpeech(id, true);
             });
         }
         @JavascriptInterface public void stop() { runOnUiThread(() -> { if (tts != null) tts.stop(); }); }
@@ -200,7 +223,7 @@ public class MainActivity extends Activity {
     }
     @Override protected void onPause() {
         finishRecording(true);
-        if (web != null) web.evaluateJavascript("stopSpeech(); if(recorder && recorder.state==='recording') recorder.stop();", null);
+        if (web != null) web.evaluateJavascript("if(window.speechSynthesis) speechSynthesis.cancel();", null);
         if (tts != null) tts.stop();
         super.onPause();
     }

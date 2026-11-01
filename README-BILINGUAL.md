@@ -1,0 +1,1 @@
+Sabi Ko v1.7 bilingual (Tagalog / English). Choose language in header. Voice uses Android TextToSpeech language codes fil-PH/tl-PH or en-US. Custom buttons and saved recordings remain as entered; recorded audio is not automatically translated. Source ZIP: upload extracted files to GitHub root, Actions > Build Android APK. Not yet compiled/tested on Android.
