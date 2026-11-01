@@ -16,6 +16,8 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.webkit.*;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 import androidx.webkit.WebViewAssetLoader;
@@ -39,14 +41,31 @@ public class MainActivity extends Activity {
 
     @Override public void onCreate(Bundle saved) {
         super.onCreate(saved);
+        // Android 15+ uses edge-to-edge by default. Reserve a safe viewport for
+        // the web board so neither the status bar nor navigation bar overlaps it.
+        FrameLayout appContainer = new FrameLayout(this);
         web = new WebView(this);
-        setContentView(web);
-        if (android.os.Build.VERSION.SDK_INT >= 35) {
-            web.setOnApplyWindowInsetsListener((v, insets) -> {
-                android.graphics.Insets bars = insets.getInsets(WindowInsets.Type.systemBars());
-                v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
-                return insets;
+        appContainer.addView(web, new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        setContentView(appContainer);
+        if (android.os.Build.VERSION.SDK_INT >= 30) {
+            getWindow().setDecorFitsSystemWindows(false);
+            appContainer.setOnApplyWindowInsetsListener((view, insets) -> {
+                android.graphics.Insets safe = insets.getInsets(
+                    WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars()
+                        | WindowInsets.Type.displayCutout());
+                view.setPadding(safe.left, safe.top, safe.right, safe.bottom);
+                return WindowInsets.CONSUMED;
             });
+            appContainer.requestApplyInsets();
+        } else {
+            appContainer.setFitsSystemWindows(true);
+        }
+        getWindow().setStatusBarColor(android.graphics.Color.rgb(245, 248, 255));
+        getWindow().setNavigationBarColor(android.graphics.Color.rgb(255, 255, 255));
+        if (android.os.Build.VERSION.SDK_INT >= 26) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
         }
         WebSettings settings = web.getSettings();
         settings.setJavaScriptEnabled(true);
