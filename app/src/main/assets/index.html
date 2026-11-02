@@ -234,7 +234,41 @@ body.editing .tile{padding-top:32px !important;padding-bottom:44px !important}
  .footer{min-height:26px!important;}
  .bottom-static{max-height:28dvh!important;}
 }
-.brand::after{content:"LS 1.9.2";font-size:10px;font-weight:700;color:#315d9b;background:#e8f0ff;border-radius:4px;padding:2px 4px;margin-left:3px}</style><style>
+.brand::after{content:"LS 1.9.3";font-size:10px;font-weight:700;color:#315d9b;background:#e8f0ff;border-radius:4px;padding:2px 4px;margin-left:3px}
+/* v1.9.3: visible word cards, invisible scrollbars, touch swipe remains enabled. */
+.board-scroll,.cats,.quick,.top-static,.bottom-static{scrollbar-width:none!important;-ms-overflow-style:none!important}
+.board-scroll::-webkit-scrollbar,.cats::-webkit-scrollbar,.quick::-webkit-scrollbar,.top-static::-webkit-scrollbar,.bottom-static::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}
+.board-scroll{touch-action:pan-x pan-y;overscroll-behavior:contain}
+@media (orientation:portrait){.board-scroll{touch-action:pan-y!important;}}
+@media (orientation:landscape){
+  body{overflow:hidden!important}
+  .board-scroll{overflow-x:auto!important;overflow-y:hidden!important;touch-action:pan-x!important;padding:2px 2px 3px!important;}
+  .grid{gap:7px!important;grid-auto-columns:clamp(110px,15vw,164px)!important;}
+  .tile .name{font-size:clamp(12px,2.7vh,17px)!important}
+  .tile .emoji{font-size:clamp(24px,5.2vh,38px)!important}
+}
+@media (orientation:landscape) and (max-height:530px){
+  /* Less top chrome: distribute room to the word board instead of shrinking each card. */
+  header{height:31px!important;}
+  main{padding:2px 6px 0!important;gap:1px!important}
+  .top-static{max-height:38dvh!important}
+  .sentence{min-height:30px!important;max-height:35px!important}
+  .controls button{min-height:30px!important}
+  .quick button,.cats button{font-size:11px!important;padding:3px 6px!important}
+  .grid{grid-template-rows:repeat(2,minmax(0,1fr))!important;grid-auto-columns:clamp(112px,17vw,162px)!important;gap:6px!important}
+  .tile{border-radius:12px!important;padding:3px!important}
+  .tile .emoji{font-size:clamp(24px,6.6vh,39px)!important}
+  .tile .name{font-size:clamp(12px,3.35vh,17px)!important}
+  .bottom-static{max-height:27dvh!important}
+  .footer{min-height:29px!important}
+}
+@media (orientation:landscape) and (max-height:320px){
+  .top-static{max-height:38dvh!important}
+  .grid{grid-auto-columns:clamp(104px,17vw,144px)!important}
+  .tile .emoji{font-size:clamp(20px,6vh,28px)!important}
+  .tile .name{font-size:11px!important}
+}
+</style><style>
 .voice-edit{position:absolute;left:4px;bottom:4px;z-index:4;border:1px solid #2d62b8;background:#e4efff;color:#17427c;border-radius:9px;padding:4px 7px;font-weight:750;font-size:12px;min-height:31px;cursor:pointer}
 #voiceEditDialog{border:2px solid #aabde9;border-radius:18px;max-width:460px;width:94%;padding:18px;background:white;color:#182540;box-shadow:0 8px 34px #0004}
 #voiceEditDialog::backdrop{background:#101b38a6}
