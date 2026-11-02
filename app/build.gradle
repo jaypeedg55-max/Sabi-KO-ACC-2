@@ -6,8 +6,8 @@ android {
         applicationId 'ph.sabiko.app'
         minSdk 26
         targetSdk 35
-        versionCode 21
-        versionName '1.9.3-swipe'
+        versionCode 22
+        versionName '2.0.4-test'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
